@@ -4,13 +4,13 @@ function [DateTime,Date,Time,DateTimeVector] = U2Str(U,center)
 if(~(length(center)==7))
     center=[center,zeros(1,7-length(center))];
 end
-Years=floor(U/321408);
-Months=floor(mod(U,321408)/26784);
-Days=floor(mod(U,26784)/864);
+Years=round((U-mod(U,321408))/321408);
+Months=round(mod((U-mod(U,26784)),321408)/26784);
+Days=round(mod((U-mod(U,864)),26784)/864);
 
-Hous=floor(mod(U,864)/36);
-Mins=floor(mod(U,36)/0.6);
-Secs=floor(mod(U,0.6)/0.01);
+Hous=round(mod((U-mod(U,36)),864)/36);
+Mins=round(mod(U-mod(U,0.6),36)/0.6);
+Secs=round(mod(U-mod(U,0.01),0.6)/0.01);
 Dses=round(mod(U,0.01)/0.001);
 
 Years=Years+center(1);

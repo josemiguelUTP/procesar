@@ -12,4 +12,3 @@ carpeta=[RUTA(1:index(end)),'Cache/'];
 save([carpeta,nombre1],'cach1');
 save([carpeta,nombre2],'cach2');
 end
-
