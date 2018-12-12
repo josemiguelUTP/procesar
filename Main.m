@@ -116,13 +116,29 @@ RUTAS = {'/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180710001451-2018071
 '/home/gvilla/Downloads/PhPo/C37118-60-Bacata-20180723172339-20180725234428.csv'
 };
 %% Separacion de hidroelectricas
-index=[1,19,41,63,83,94];
+indice=[1,19,41,63,83,93];
 %% Alineacion de hidroelectricas
 %Tiempo promedio para obtener la interseccion de los archivos de la ENEA2,    
 %GUAVIO2 y CERROMATOSO es de 5 minutos con 55 segundos
 tic
-[interseccion]=alinea(RUTAS,index);% t=5 min 55 seg
+[interseccion]=alinea(18,RUTAS,indice);% t=5 min 55 seg
 toc
-[~,dataLaEnea2]=alinea(RUTAS,index(1:2),interseccion);%Datos de LaEnea2   t=1 min 57 seg
-[~,dataGuavio2]=alinea(RUTAS,index(2:3),interseccion);%Datos de GUAVIO2   t=2 min 21 seg
-[~,dataCerromatoso]=alinea(RUTAS,index(3:4),interseccion);%Datos de Cerro t=2 min 20 seg
+titl='Alineando archivos';
+indent=0;
+prctg=0;
+progress(titl,prctg,indent);
+tic;[~,dataLaEnea2]=alinea(18,RUTAS,indice(1:2),interseccion);toc;%Datos de LaEnea2                 t=1 min 51 seg
+prctg=100/5;
+progress(titl,prctg,indent);
+tic;[~,dataGuavio2]=alinea(18,RUTAS,indice(2:3),interseccion);toc;%Datos de GUAVIO2                 t=2 min 13 seg
+prctg=200/5;
+progress(titl,prctg,indent);
+tic;[~,dataCerromatoso]=alinea(18,RUTAS,indice(3:4),interseccion);toc;%Datos de Cerro               t=2 min 14 seg
+prctg=300/5;
+progress(titl,prctg,indent)
+tic;[~,dataGuavioCaverna]=alinea(18,RUTAS,indice(4:5),interseccion);toc;%Datos de Guavio caverna    t=2 min 7 seg
+prctg=400/5;
+progress(titl,prctg,indent)
+tic;[~,dataBacata]=alinea(18,RUTAS,indice(3:4),interseccion);toc;%Datos de Bacata                   t=2 min 16 seg
+prctg=500/5;
+progress(titl,prctg,indent)

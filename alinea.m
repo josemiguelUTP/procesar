@@ -1,14 +1,27 @@
-function [varargout]=alinea(varargin)
-%interseccion=alinea(RUTAS,index)
-%   Encuentra la interseccion de fechas entre todas las hidroelectricas
-%[interseccion,data]=alinea(RUTAS,index,interseccion)
-%   Devuelve los datos de las hidroelectricas en el intervalo determinado
+function [varargout]=alinea(center,varargin)
+%Syntax:    1) interseccion=alinea(center,RUTAS,index)
+%           2) [interseccion,data]=alinea(center,RUTAS,index,interseccion)
+%
+%   1) Encuentra la interseccion de fechas entre todas las hidroelectricas
+%   en RUTAS, donde las rutas de cada hidroelectrica comienza en index, 
+%Ejemplo:
+%   Para RUTAS={ 'h11.csv';
+%                'h12.csv';
+%                'h13.csv';
+%                'h14.csv';
+%                'h21.csv';
+%                'h22.csv';
+%                'h31.csv';
+%                'h32.csv';
+%                'h33.csv';
+%                }
+%   index=[1,5,7,10]
+%   2) Devuelve los datos de las hidroelectricas en el intervalo determinado
 %   por interseccion
 
 %% Separacion de hidroelectricas
 RUTAS=varargin{1};
 index=varargin{2};
-center=18;
 cantHidro=length(index)-1;
 Fechas=zeros(cantHidro,2);
 paths=cell(cantHidro,1);
@@ -16,30 +29,40 @@ for i=1:cantHidro
     paths{i}=RUTAS(index(i):index(i+1)-1);
 end
 %% Fecha inicial y fecha final de las hidroelectricas la enea el guavio y cerromatoso
-if nargin==2
+if (nargin-1)==2
     %Tarda 300 segundos en correr en los equipos de Sirius
     %tFechas=cell(cantHidro,1);
     for i=1:cantHidro
+        prctg=(i-1)*100/cantHidro;
+        indent=0;
+        title='Extrayendo fechas:';
+        progress(title,prctg,indent);
         %Tiempo para cerromatoso la enea y el guavio2 es de aproximadamente 300
         %segundos
         %[tFechas{i},Fechas(i,1),Fechas(i,2)]=extrae(paths{i},center);
         [~,Fechas(i,1),Fechas(i,2)]=extrae(paths{i},center);
     end
+    prctg=100;
+    progress(title,prctg,indent);
     %% Interseccion entre las fechas de estas hidroelectricas
     %Interseccion=[fecha inicial de interseccion, fecha final de interseccion]
     interseccion=[max(Fechas(:,1)),min(Fechas(:,2))];
-elseif nargin==3
+elseif (nargin-1)==3
     interseccion=varargin{3};
 end
 varargout{1}=interseccion;
 %% Busqueda de la fecha en cada uno de los datos para recortarlos
 data=cell(cantHidro,2);
-if nargout==2&&nargin==3
+if nargout==2&&(nargin-1)==3
+    title='Recortando archivos';
+    indent=4;
     for i=1:cantHidro
         cantArchi=length(paths{i});
         d=[];
         t=[];
         for j=1:cantArchi
+            prctg=(j-1)*100/cantArchi;          
+            progress(title,prctg,indent);
             Info=extrae(paths{i}(j),center);
             Info=Info{1};
             %Alinear columnas
@@ -47,6 +70,8 @@ if nargout==2&&nargin==3
             d=[d;dt];
             t=[t;tt];
         end
+        prctg=100;
+        progress(title,prctg,indent);
         data{i,1}=d;
         data{i,2}=t;
     end
@@ -86,7 +111,7 @@ while notFound
 end
 end
 function [ data,textdata ] = cortar( Info,interseccion,center )
-%cortar Entrega una matriz data con los valores numericos que estén entre
+%cortar Entrega una matriz data con los valores numericos que estï¿½n entre
 %las fechas {interseccion(1),interseccion(2)} asi como las fechas de cada
 %uno
 %% Inicializacion de variables
@@ -176,8 +201,13 @@ function  varargout  = extrae( Path,center )
 nArchivos=length(Path);
 Fechas=zeros(nArchivos,2);
 Info=cell(nArchivos,1);
-
+title='Extrayendo archivos:';
+indent=4;
 for i=1:nArchivos
+    if nArchivos>1
+    prctg1=(i-1)*100/nArchivos;
+    progress(title,prctg1,indent);
+    end
     %archivo=Archivos{i};
     %Ruta=[Path,'\',archivo];
     Ruta=Path{i};
@@ -191,6 +221,10 @@ for i=1:nArchivos
     if nargout==3
         Fechas(i,:)=[fechaInicial,fechaFinal];
     end
+end
+if nArchivos>1
+prctg1=100;
+progress(title,prctg1,indent);
 end
 fechaInicial=min(Fechas(:,1));
 fechaFinal=max(Fechas(:,2));

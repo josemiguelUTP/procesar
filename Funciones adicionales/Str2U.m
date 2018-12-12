@@ -32,6 +32,9 @@ Year=mStr2double(Date(:,slash(2)+1:end));
 
 slash=strfind(Time,':');
 Hou=mStr2double(Time(:,1:slash(1)-1));
+if length(slash)<2
+    fprintf('Error en extraccion de hora, verifique el formato de hora del archivo');
+end
 Min=mStr2double(Time(:,slash(1)+1:slash(2)-1));
 Sec=mStr2double(Time(:,slash(2)+1:end-4));
 Dse=mStr2double(Time(:,end-2));
