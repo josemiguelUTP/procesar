@@ -1,4 +1,4 @@
-clear;
+clear;close all
 %% Inicializando variables
 % Estableciendo nombres de las fases y de archivos
 nFase.fase0='fase0'; %Datos alineados en la misma ventana de tiempo
@@ -122,6 +122,18 @@ else
                         header1=sprintf('Patron actual: %d %0.2f %%',actualC,probabilidadActual);
                     end
                     if i==1||~(anteriorC==actualC)
+                        if ~ishandle(button)
+                            button=msgbox('Continuar?');
+                            button.Position=Position;
+                            while ishandle(button)
+                                pause(0.1);
+                            end
+                            button=msgbox('Pausar?');
+                            button.Position=Position;
+                        else
+                            Position=button.Position;
+                            pause(2);
+                        end
                         %Mostrando posibles transiciones siguientes
                         head='Siguiente Probabilidad';
                         disp(header2);
@@ -141,56 +153,52 @@ else
                         end
                         
                         
-                        
                         %Graficando resultados actuales
                         X=((1:i-(chun-1)*C)+(chun-1)*C)*0.1/60;
                         Xt=(pi:pf)*0.1/60;
                         Cxt=length(Xt);
-                        Y1=defPatrones(1:i-(chun-1)*C,1);
-                        Y1f=centroides(masProbable,1)*ones(Cxt,1);
-                        Y3=defPatrones(1:i-(chun-1)*C,3);
-                        Y3f=centroides(masProbable,3)*ones(Cxt,1);
-                        Y5=defPatrones(1:i-(chun-1)*C,5);
-                        Y5f=centroides(masProbable,5)*ones(Cxt,1);
-                        Y7=defPatrones(1:i-(chun-1)*C,7);
-                        Y7f=centroides(masProbable,7)*ones(Cxt,1);
+                                               
+                        Y1=defPatrones(1:i-(chun-1)*C,1:3);
+                        Y1f=ones(Cxt,1)*centroides(masProbable,1:3);
+                        Y3=defPatrones(1:i-(chun-1)*C,4:6);
+                        Y3f=ones(Cxt,1)*centroides(masProbable,4:6);
+                        Y5=defPatrones(1:i-(chun-1)*C,7:9);
+                        Y5f=ones(Cxt,1)*centroides(masProbable,7:9);
+                        Y7=defPatrones(1:i-(chun-1)*C,10:12);
+                        Y7f=ones(Cxt,1)*centroides(masProbable,10:12);
                         subplot(4,1,1);
                         hold off;plot(X,Y1);hold on;
                         title('La Enea');
                         plot(Xt,Y1f);
-                        ylabel('Frecuencia');
-                        legend('Valores actuales','valor siguiente');
+                        ylim([110,130]);
+                        xlim([Xt(1),Xt(end)]);
+                        ylabel('Dif entre fases');
+                        legend('A-B','B-C','C-A','Siguiente A-B','Siguiente B-C','Siguiente C-A');
                         subplot(4,1,2);
                         hold off;plot(X,Y3);hold on;
                         title('Guavio2');
-                        ylabel('Frecuencia');
+                        ylabel('Dif entre fases');
                         plot(Xt,Y3f)
-                        legend('Valores actuales','valor siguiente');
+                        ylim([110,130]);
+                        xlim([Xt(1),Xt(end)]);
+                        legend('A-B','B-C','C-A','Siguiente A-B','Siguiente B-C','Siguiente C-A');
                         subplot(4,1,3);
                         hold off;plot(X,Y5);hold on;
                         title('Cerromatoso');
-                        ylabel('Frecuencia');
+                        ylabel('Dif entre fases');
                         plot(Xt,Y5f);
-                        legend('Valores actuales','valor siguiente');
+                        ylim([110,130]);
+                        xlim([Xt(1),Xt(end)]);
+                        legend('A-B','B-C','C-A','Siguiente A-B','Siguiente B-C','Siguiente C-A');
                         subplot(4,1,4);
                         hold off;plot(X,Y7);hold on;
                         title('Guavio Caverna');
-                        ylabel('Frecuencia');
+                        ylabel('Dif entre fases');
                         xlabel('Minutos');
                         plot(Xt,Y7f);
-                        legend('Valores actuales','valor siguiente');
-                        if ~ishandle(button)
-                            button=msgbox('Continuar?');
-                            button.Position=Position;
-                            while ishandle(button)
-                                pause(0.1);
-                            end
-                            button=msgbox('Pausar?');
-                            button.Position=Position;
-                        else
-                            Position=button.Position;
-                        end
-                        pause(2);
+                        ylim([110,130]);
+                        xlim([Xt(1),Xt(end)]);
+                        legend('A-B','B-C','C-A','Siguiente A-B','Siguiente B-C','Siguiente C-A');
                     end
                     anterior=actual;
                     anteriorC=actualC;
