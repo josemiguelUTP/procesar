@@ -4,37 +4,48 @@ function [DateTime,Date,Time,DateTimeVector] = U2Str(U,center)
 if(~(length(center)==7))
     center=[center,zeros(1,7-length(center))];
 end
-Year=floor(U/321408);
-Month=floor(mod(U,321408)/26784);
-Day=floor(mod(U,26784)/864);
+Years=floor(U/321408);
+Months=floor(mod(U,321408)/26784);
+Days=floor(mod(U,26784)/864);
 
-Hou=floor(mod(U,864)/36);
-Min=floor(mod(U,36)/0.6);
-Sec=floor(mod(U,0.6)/0.01);
-Dse=round(mod(U,0.01)/0.001);
+Hous=floor(mod(U,864)/36);
+Mins=floor(mod(U,36)/0.6);
+Secs=floor(mod(U,0.6)/0.01);
+Dses=round(mod(U,0.01)/0.001);
 
-Year=Year+center(1);
-Month=Month+center(2);
-Day=Day+center(3);
+Years=Years+center(1);
+Months=Months+center(2);
+Days=Days+center(3);
 
-Hou=Hou+center(4);
-Min=Min+center(5);
-Sec=Sec+center(6);
-Dse=Dse+center(7);
+Hous=Hous+center(4);
+Mins=Mins+center(5);
+Secs=Secs+center(6);
+Dses=Dses+center(7);
 
-DateTimeVector=[Year,Month,Day,Hou,Min,Sec,Dse];
-Date={int2str(Day),'/',int2str(Month),'/',int2str(Year)};
-temp=Date{1};
-for i=2:5
-    temp=[temp,Date{i}];
+[m,n]=size(U);
+if m==1&&n==1
+    i=1;
+    j=1;
+    Year=Years(i,j);Month=Months(i,j);Day=Days(i,j);
+    Hou=Hous(i,j);Min=Mins(i,j);Sec=Secs(i,j);Dse=Dses(i,j);
+    DateTimeVector=[Year,Month,Day,Hou,Min,Sec,Dse];
+    Date=[int2str(Day),'/',int2str(Month),'/',int2str(Year)];
+    Time=[int2str(Hou),':',int2str(Min),':',int2str(Sec),'.',int2str(Dse),'00'];
+    DateTime=[Date,' ',Time];
+else
+    DateTimeVector=cell(m,n);
+    Date=cell(m,n);
+    Time=cell(m,n);
+    DateTime=cell(m,n);
+    for i=1:m
+        for j=1:n
+            Year=Years(i,j);Month=Months(i,j);Day=Days(i,j);
+            Hou=Hous(i,j);Min=Mins(i,j);Sec=Secs(i,j);Dse=Dses(i,j);
+            DateTimeVector{i,j}=[Year,Month,Day,Hou,Min,Sec,Dse];
+            Date{i,j}=[int2str(Day),'/',int2str(Month),'/',int2str(Year)];
+            Time{i,j}=[int2str(Hou),':',int2str(Min),':',int2str(Sec),'.',int2str(Dse),'00'];
+            DateTime{i,j}=[Date{i,j},' ',Time{i,j}];
+        end
+    end
 end
-Date=temp;
-Time={int2str(Hou),':',int2str(Min),':',int2str(Sec),'.',int2str(Dse),'00'};
-temp=Time{1};
-for i=2:8
-    temp=[temp,Time{i}];
 end
-Time=temp;
-DateTime=[Date,' ',Time];
-end
-

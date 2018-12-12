@@ -18,8 +18,8 @@ for i=1:nArchivos
     Info{i}=temp;
     end
     %Solo se trabajar� con la primera y ultima fila
-    fechaInicial=DateStr2U(temp.textdata(3,1),temp.textdata(3,2),center);
-    fechaFinal=DateStr2U(temp.textdata(end,1),temp.textdata(end,2),center);
+    fechaInicial=Str2U(temp.textdata(3,1),temp.textdata(3,2),center);
+    fechaFinal=Str2U(temp.textdata(end,1),temp.textdata(end,2),center);
     if nargout==3
     Fechas(i,:)=[fechaInicial,fechaFinal];
     end

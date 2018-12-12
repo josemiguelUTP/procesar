@@ -3,8 +3,8 @@ function [ data,textdata ] = cortar( Info,interseccion,center )
 %las fechas {interseccion(1),interseccion(2)} asi como las fechas de cada
 %uno
 %% Inicializacion de variables
-fi=DateStr2U(Info.textdata(3,1),Info.textdata(3,2),center);
-ff=DateStr2U(Info.textdata(end,1),Info.textdata(end,2),center);
+fi=Str2U(Info.textdata(3,1),Info.textdata(3,2),center);
+ff=Str2U(Info.textdata(end,1),Info.textdata(end,2),center);
 i1=interseccion(1);
 i2=interseccion(2);
 data=0;

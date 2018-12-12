@@ -1,4 +1,4 @@
-function [ U ] = DateStr2U( Date,Time,center)
+function [ U ] = Str2U( Date,Time,center)
 %Convierte la fecha codificada en los datos de las UPM en U donde 1 Hora
 %   son 36U donde el cero es center=[minDay minMes minYear minHor minMin
 %minSec minDse]

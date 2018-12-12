@@ -8,8 +8,8 @@ x00=3;
 x1a=0;
 while notFound
 
-fx00=DateStr2U(textdata(x00,1),textdata(x00,2),center);
-fx01=DateStr2U(textdata(x00+1,1),textdata(x00+1,2),center);
+fx00=Str2U(textdata(x00,1),textdata(x00,2),center);
+fx01=Str2U(textdata(x00+1,1),textdata(x00+1,2),center);
 
 df=fx01-fx00;
 x1=round((F-fx00)/df)+x00;
@@ -20,7 +20,7 @@ if x1<3
     x1=0;
     return
 end
-fx1=DateStr2U(textdata(x1,1),textdata(x1,2),center);
+fx1=Str2U(textdata(x1,1),textdata(x1,2),center);
 notFound=~(fx1==F);
 if x1a==x1&&notFound
     x1=0;
