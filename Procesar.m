@@ -261,7 +261,7 @@ exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_cl
 if ~exis
     %% Creacion de centroides unicos y clasificacion de los patrones en estos centroides
     clasifica=zeros(size(patrones,1),1);
-    [ centroides,clasifica(noNanIndex,:) ] = centrUnicosO(patrones(noNanIndex,:),0.01,0.7,50000);
+    [ centroides,clasifica(noNanIndex,:) ] = centrUnicosO(patrones(noNanIndex,:),0.2,0.7,50000);
     %[ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.8,0.2,50000);
     %% Guardando variables procesadas
     %   Creando la carpeta fase2 (Centroides y clasificacion)
