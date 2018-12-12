@@ -84,9 +84,11 @@ for i=2:N
         t=tic;
         fprintf('Centroides hasta ahora: %d \n\n',cant);
         cantA=cant;
-    elseif toc(t)>1&&(~cantA==cant)
+    elseif toc(t)>1&&~(cantA==cant)
         fprintf('Centroides hasta ahora: %d \n\n',cant);
+        t=tic;
     end
+    cantA=cant;
 end
 centroides=centroides(1:cant,:);
 end
