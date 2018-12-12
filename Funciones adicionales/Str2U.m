@@ -31,12 +31,14 @@ Month=mStr2double(Date(:,slash(1)+1:slash(2)-1));
 Year=mStr2double(Date(:,slash(2)+1:end));
 
 slash=strfind(Time,':');
-Hou=mStr2double(Time(:,1:slash(1)-1));
 if length(slash)<2
     fprintf('Error en extraccion de hora, verifique el formato de hora del archivo');
+else
+    Hou=mStr2double(Time(:,1:slash(1)-1));
+    Min=mStr2double(Time(:,slash(1)+1:slash(2)-1));
+    Sec=mStr2double(Time(:,slash(2)+1:end-4));
 end
-Min=mStr2double(Time(:,slash(1)+1:slash(2)-1));
-Sec=mStr2double(Time(:,slash(2)+1:end-4));
-Dse=mStr2double(Time(:,end-2));
+point=strfind(Time,'.');
+Dse=mStr2double(Time(:,point(1)+1));
 U=(Year-center(1))*321408+(Month-center(2))*26784+(Day-center(3))*864+(Hou-center(4))*36+(Min-center(5))*0.6+(Sec-center(6))*0.01+(Dse-center(7))*0.001;
 end

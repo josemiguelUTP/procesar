@@ -1,9 +1,10 @@
 function [interseccion,varargout]=alinea(center,RUTAS,index,varargin)
-%Syntax:    1) interseccion=        alinea(center,RUTAS,index)
-%           2) [interseccion,data]= alinea(center,RUTAS,index,interseccion)
-%           3) [interseccion,data]= alinea(center,RUTAS,index)
+%Syntax:    0) interseccion=        alinea(center,RUTAS,index)
+%           1) [interseccion,data]= alinea(center,RUTAS,index,interseccion)
+%           2) [interseccion,data]= alinea(center,RUTAS,index)
+%           3) [interseccion,fechaInicial,fechaFinal]=alinea(center,RUTAS,index)
 %
-%   1) Encuentra la interseccion de fechas entre todas las hidroelectricas
+%   0) Encuentra la interseccion de fechas entre todas las hidroelectricas
 %   en RUTAS, donde las rutas de cada hidroelectrica comienza en index, 
 %Ejemplo:
 %   Para RUTAS={ 'h11.csv';
@@ -17,7 +18,7 @@ function [interseccion,varargout]=alinea(center,RUTAS,index,varargin)
 %                'h33.csv';
 %                }
 %   index=[1,5,7,10]
-%   2) Devuelve los datos de las hidroelectricas en el intervalo determinado
+%   1) Devuelve los datos de las hidroelectricas en el intervalo determinado
 %   por interseccion
 
 %% varargin parse
@@ -25,7 +26,12 @@ cantHidro=length(index)-1;
 Fechas=zeros(cantHidro,2);
 paths=cell(cantHidro,1);
 for i=1:cantHidro
-    paths{i}=RUTAS(index(i):index(i+1)-1);
+    try
+        paths{i}=RUTAS(index(i):index(i+1)-1);
+    catch
+        disp('Error en el vector de indices.');
+    end
+    
 end
 %% Estableciendo el modo de ejecucion
 if nargin==3&&nargout==1
@@ -34,11 +40,13 @@ elseif nargin==4&&nargout==2
     caso=1;
 elseif nargin==3&&nargout==2
     caso=2;
+elseif nargin==3&&nargout==3
+    caso=3;
 else
     error('Syntax error');
 end
 %% Fecha inicial y fecha final de las hidroelectricas la enea el guavio y cerromatoso
-if caso==0||caso==2
+if caso==0||caso==2||caso==3
     %Tarda 300 segundos en correr en los equipos de Sirius
     %tFechas=cell(cantHidro,1);
     indent=1;
@@ -51,20 +59,24 @@ if caso==0||caso==2
         [~,Fechas(i,1),Fechas(i,2)]=extrae(paths{i},center);
         title='Encontrando intersecciones: ';
         prctg=(i)/cantHidro;
-        indent=0;
+        indent=1;
         h1=progress1(indent,title,prctg,h1);
-    end
-    
+    end    
     %% Interseccion entre las fechas de estas hidroelectricas
     %Interseccion=[fecha inicial de interseccion, fecha final de interseccion]
     interseccion=[max(Fechas(:,1)),min(Fechas(:,2))];
+    if caso==3
+        varargout{1}=Fechas(:,1);
+        varargout{2}=Fechas(:,2);
+        return;
+    end
 elseif caso==1
     interseccion=varargin{1};
 end
 %% Busqueda de la fecha en cada uno de los datos para recortarlos
 if caso==1||caso==2
     data=cell(cantHidro,2);
-    title='Alineando hidroelectricas: ';
+    title='Alineando... ';
     indent=1;
     h2=progress1(indent,title,0);
     for i=1:cantHidro

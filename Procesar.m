@@ -2,18 +2,15 @@
 clear;
 %% Carga de RUTAS
 %carpeta='/home/gvilla/Downloads/PhPo/';
-%carpeta='D:\Jevo\Documentos\Matematica aplicada\XM\Bases de datos\';
-carpeta='D:\Jevo\Documentos\Matematica aplicada\XM\Bases de datos\Prueba\';
+%carpeta=['D:\Jevo\Documentos\Matematica aplicada\XM\Bases de datos',sl];
+carpeta=['D:\Jevo\Documentos\Matematica aplicada\XM\Bases de datos\Prueba\'];
 archivos={'Cerromatoso1','Cerromatoso2','Cerromatoso3','Cerromatoso4','Enea1','Enea2','Enea3','Guavio1','Guavio2','Guavio3','Guavio4'};
-%archivos={'C37118-2-GUAVIO2-20180812072823-20180814124232';'C37118-2-GUAVIO2-20180814124232-20180816175642';'C37118-2-GUAVIO2-20180816175642-20180817100930';'C37118-11-LaEnea230-20180812113629-20180814171847';'C37118-11-LaEnea230-20180814171847-20180816225234';'C37118-11-LaEnea230-20180816225234-20180817100930'};
-%archivos={'C37118-2-GUAVIO2-20180812072823-20180814124232'};
 RUTAS=cell(length(archivos),1);
 for i=1:length(archivos)
     RUTAS{i}=[carpeta,archivos{i},'.csv'];
 end
 clear carpeta archivos i
-% RUTAS =
-% {'/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180710001451-20180712061951.csv';...
+% RUTAS ={'/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180710001451-20180712061951.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180712061951-20180714114336.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180714114337-20180716171026.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180716171026-20180718225234.csv';...
@@ -53,32 +50,19 @@ clear carpeta archivos i
 % '/home/gvilla/Downloads/PhPo/C37118-2-GUAVIO2-20180812072823-20180814124232.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-2-GUAVIO2-20180814124232-20180816175642.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-2-GUAVIO2-20180816175642-20180817100930.csv';...
-% % '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180701000000-20180704232005.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180704232005-20180708223700.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180708223700-20180712205001.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180712205001-20180716183448.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180716183448-20180720162002.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180720162002-20180724140358.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180724140358-20180728114745.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180728114745-20180801091053.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180801091053-20180805123403.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180805123403-20180809132736.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180809132736-20180813112146.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180813112146-20180817090740.csv';... %
-% '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg
-% 4904-20180817090740-20180817100930.csv';...
+% % '/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180701000000-20180704232005.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180704232005-20180708223700.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180708223700-20180712205001.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180712205001-20180716183448.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180716183448-20180720162002.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180720162002-20180724140358.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180724140358-20180728114745.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180728114745-20180801091053.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180801091053-20180805123403.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180805123403-20180809132736.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180809132736-20180813112146.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180813112146-20180817090740.csv';... 
+% %'/home/gvilla/Downloads/PhPo/C37118-40-IT Tctg4904-20180817090740-20180817100930.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-44-Cerromatoso110_1-20180701000000-20180703045820.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-44-Cerromatoso110_1-20180703045820-20180705195558.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-44-Cerromatoso110_1-20180705195558-20180708053217.csv';...
@@ -141,15 +125,14 @@ nFase.sFase1='Norm'; %Sufijo del archivo que contiene la normalizacion de los pa
 nFase.fase2='fase2'; %Clasificacion de patrones
 nFase.fase3='fase3'; %Creacion de transiciones unicas
 %% Deteccion de carpeta asumiendo que todos los archivos .csv estan en una misma carpeta
-slash=strfind(RUTAS{1},'/');
-if isempty(slash)
-    slash=strfind(RUTAS{1},'\');
-end
+sl='\';
+slash=strfind(RUTAS{1},sl);
 carpeta=RUTAS{1}(1:slash(end));
 clear slash;
 %% Fase 0 alineacion de hidroelectricas
 %% Separacion de hidroelectricas
-indice=[1,5,8,12];
+%indice=[1,19,41,63,83];    %Real
+indice=[1,5,8,11];          %Prueba
 hidr=length(indice)-1; %Cantidad de hidroelectricas
 nombres=cell(hidr,1);
 for i=1:hidr
@@ -157,9 +140,11 @@ for i=1:hidr
 end
 %% Se detecta la existencia de los datos de fase0
 exis=true;
-for i=1:hidr
+i=1;
+while exis&&i<=hidr
     file=sprintf('data%d.mat',i);
-    exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase0,'\',file],'file');
+    exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase0,sl,file],'file');
+    i=i+1;
 end
 %% Si no existen se alinean las hidroelectricas
 if ~exis
@@ -167,7 +152,7 @@ if ~exis
     %Tiempo promedio para obtener la interseccion de los archivos de la ENEA2,
     %GUAVIO2 y CERROMATOSO es de 5 minutos con 55 segundos
     %Deteccion de la existencia de interseccion
-    exis=exist([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat'],'file');
+    exis=exist([carpeta,'Datos Procesados',sl,nFase.fase0,sl,'interseccion.mat'],'file');
     %Si no existe se crea
     if ~exis
         tic
@@ -175,28 +160,44 @@ if ~exis
         toc
         %Guardando interseccion
         [~,~,~]=mkdir(carpeta,'Datos Procesados');
-        [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase0);
-        save([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat'],'interseccion','-v7.3');
+        [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase0);
+        save([carpeta,'Datos Procesados',sl,nFase.fase0,sl,'interseccion.mat'],'interseccion','-v7.3');
     end
-    %Se carga interseccion siempre y cuando no esté en el workspace
+    %Se carga interseccion siempre y cuando no estï¿½ en el workspace
     exis=exist('interseccion','var');
     if ~exis
-        load([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat']);
+        load([carpeta,'Datos Procesados',sl,nFase.fase0,sl,'interseccion.mat']);
     end
-    title='Alineando archivos';
+    title='Alineacion y Guardado';
     indent=0;
     prctg=0;
+    %Creando orden de cada archivo
+    %1:Frecuencia
+    %2:VA
+    %3:TethaA
+    %4:VB
+    %5:TethaB
+    %6:VC
+    %7:TethaC
+    orden=[
+        1 4 5 2 3 6 7;%La Enea
+        1 2 3 6 7 4 5;%Guavio2
+        1 6 7 4 5 2 3;%Cerromatoso
+        1 6 7 4 5 2 3;%Guavio caverna
+    ];
     % Creando la carpeta Datos Procesados y fase0 (Alineados)
     [~,~,~]=mkdir(carpeta,'Datos Procesados');
-    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase0);
+    [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase0);
     h=progress1(indent,title,0);
     for i=1:hidr
         name=nombres{i};
         tic;[~,data]=alinea(18,RUTAS,indice(i:i+1),interseccion);toc;
         %Quitando las fechas
         data=data{1};
+        %Organizando columnas
+        data(:,orden(i,:))=data;
         %% Guardando variables procesadas
-        filename=[carpeta,'Datos Procesados\',nFase.fase0,'\',sprintf('data%d.mat',i)];
+        filename=[carpeta,'Datos Procesados',sl,nFase.fase0,sl,sprintf('data%d.mat',i)];
         save(filename,'data','-v7.3');
         h=progress1(indent,title,i/(length(indice)-1),h);
     end
@@ -206,83 +207,102 @@ clear indice exis file i data
 %% Creacion rutas de archivos de fase0
 PATHS=cell(hidr,1);
 for i=1:hidr
-    PATHS{i}=[carpeta,'Datos Procesados\',nFase.fase0,'\',sprintf('data%d.mat',i)];
+    PATHS{i}=[carpeta,'Datos Procesados',sl,nFase.fase0,sl,sprintf('data%d.mat',i)];
 end
-%% Fase 1 creacion limpieza y normalizacion de patrones
+%% Fase 1 creacion y normalizacion de patrones
 %% Se detecta la existencia de los datos de fase1
-exis=exist([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat'],'file');
-exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_',nFase.sFase1,'.mat'],'file');
+exis=exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_',nFase.sFase1,'.mat'],'file');
 
 %Si no existen, se crean y guardan los patrones
 if ~exis
     %% Creacion, limpieza y normalizacion de patrones
     %   Creacion
     [patrones,nanIndex]=crearP(PATHS,1,1);
-    %   Limpieza
-    ComPatrones=patrones; %Se almacenan los patrones sin limpiar
-    patrones=clean(patrones,nanIndex);
+    ComPatrones=patrones; %Se almacenan los patrones sin normalizar
+    %patrones=clean(patrones,nanIndex); %Ya no se limpiaran los patrones
+    %% Determinacion de indices donde no hay valores nan
+    mIndex=size(patrones,1);
+    noNanIndex=comple(nanIndex,mIndex);
     %   Normalizacion
-    [patrones,N]=normaliza(patrones);
+    [patrones(noNanIndex,:),N]=normaliza(patrones(noNanIndex,:));
     %% Guardando variables procesadas
     %   Creando la carpeta fase1 (Patrones)
     [~,~,~]=mkdir(carpeta,'Datos Procesados');
-    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase1);
-    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat'],'patrones','-v7.3');
-    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_Completos.mat'],'ComPatrones','-v7.3');
-    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_nanIndex.mat'],'nanIndex','-v7.3');
-    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_',nFase.sFase1,'.mat'],'N','-v7.3');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase1);
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'.mat'],'patrones','-v7.3');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_Completos.mat'],'ComPatrones','-v7.3');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_nanIndex.mat'],'nanIndex','-v7.3');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_noNanIndex.mat'],'noNanIndex','-v7.3');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_',nFase.sFase1,'.mat'],'N','-v7.3');
     %% Eliminando variables innecesarias
     clear ComPatrones
 end
-%% Cargando variables de la fase1 siempre y cuando no estén en el workspace
+%% Cargando variables de la fase1 siempre y cuando no estï¿½n en el workspace
 exis=exist('patrones','var');
 if ~exis
-    patrones=struct2array(load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat']));
+    patrones=struct2array(load([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'.mat']));
+    nanIndex=struct2array(load([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_nanIndex.mat']));
+    noNanIndex=struct2array(load([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_noNanIndex.mat']));
 end
 %% Fase 2 clasificacion de los patrones
 %% Se detecta la existencia de los datos de fase2
-exis=exist([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides.mat'],'file');
-exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat'],'file');
+exis=exist([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_centroides.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_clasifica.mat'],'file');
 %Si no existen se clasifican los patrones
 if ~exis
     %% Creacion de centroides unicos y clasificacion de los patrones en estos centroides
-    [ centroides,clasifica ] = centrUnicosO(patrones,0.5,0.7,50000);
+    clasifica=zeros(size(patrones,1),1);
+    %[ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.2,0.7,50000);
+    [ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.8,0.2,50000);
     %% Guardando variables procesadas
     %   Creando la carpeta fase2 (Centroides y clasificacion)
     [~,~,~]=mkdir(carpeta,'Datos Procesados');
-    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase2);
-    save([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides','.mat'],'centroides','-v7.3');
-    save([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat'],'clasifica','-v7.3');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase2);
+    save([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_centroides','.mat'],'centroides','-v7.3');
+    save([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_clasifica.mat'],'clasifica','-v7.3');
 end
-%% Cargando variables de la fase2 siempre y cuando ya no estén en el workspace
+%% Cargando variables de la fase2 siempre y cuando ya no estï¿½n en el workspace
 exis=exist('centroides','var');
 exis=exis&&exist('clasifica','var');
 if ~exis
-    centroides=struct2array(load([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides.mat']));
-    clasifica=struct2array(load([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat']));
+    centroides=struct2array(load([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_centroides.mat']));
+    clasifica=struct2array(load([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_clasifica.mat']));
 end
 %% Se detecta la existencia de los datos de fase3
-exis=exist([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat'],'file');
+exis=exist([carpeta,'Datos Procesados',sl,nFase.fase3,sl,nFase.pFase1,'_transiciones','.mat'],'file');
 %Si no existe entonces se crean las transiciones
 if ~exis
     %% Fase 3 Creacion de transiciones unicas
-    [ transiciones ] = transicionesUni( clasifica );
+    
+    for i=1:length(nanIndex)
+        if i==1
+            [j,k,l]=transicionesUni2( clasifica(1:nanIndex(i)-1) );
+        elseif i==length(nanIndex)
+            [tj,tk,tl]=transicionesUni2( clasifica(nanIndex(i)+1:end) );
+            j=[j;tj];
+            k=[k;tk];
+            l=[l;tl];
+        else
+            transiciones=transicionesUni2( clasifica(nanIndex(i)+1:nanIndex(i+1)-1));
+        end
+    end
     %% Guardando variables procesadas
     %   Creando la carpeta fase3 (Transiciones unicas)
     [~,~,~]=mkdir(carpeta,'Datos Procesados');
-    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase3);
-    save([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat'],'transiciones','-v7.3');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase3);
+    save([carpeta,'Datos Procesados',sl,nFase.fase3,sl,nFase.pFase1,'_transiciones','.mat'],'transiciones','-v7.3');
 end
 %% Se cargan las variables de la fase3 siempre y cuando no existan en el workspace
 exis=exist('transiciones','var');
 if ~exis
-    load([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat']);
+    load([carpeta,'Datos Procesados',sl,nFase.fase3,sl,nFase.pFase1,'_transiciones','.mat']);
 end
 %% Prediccion
 clear clasifica exis hidr i nombres PATHS patrones RUTAS;
 %Se deben cargar los datos para hacer la prueba
-load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_Completos.mat']);
-load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_nanIndex.mat']);
+load([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_Completos.mat']);
+load([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_nanIndex.mat']);
 [ ~,noNan,nanIndex1 ] = clean( ComPatrones,nanIndex );
 ind=~(noNan==max(noNan));
 noNan=noNan(ind);

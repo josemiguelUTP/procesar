@@ -1,9 +1,9 @@
 function [ data,nanIndex ] = crearP( PATHS,cols,mCols )
 %[data,nanIndex]=crearP( PATHS,cols ) genera un conjunto de patrones formados por las
-%columnas ingresadas en cols y las pendientes de mCols de las hidroeléctricas contenidas
+%columnas ingresadas en cols y las pendientes de mCols de las hidroelï¿½ctricas contenidas
 %en PATHS, ademas devuelve los indices en los que hay valores NaN en data
 %% Prealocacion de variables
-uniCol=unique([cols,mCols]); %Columnas que se van a añadir a los patrones ya sea por su valor o por su pendiente
+uniCol=unique([cols,mCols]); %Columnas que se van a aï¿½adir a los patrones ya sea por su valor o por su pendiente
 hidr=length(PATHS);
 nC=(length(cols)+length(mCols)); %Determinacion de cantidad de columnas que corresponden a cada hidroelectrica
 n=hidr*nC; %Determinacion de cantidad de columnas de cada patron
@@ -52,7 +52,9 @@ for i=1:hidr
     h=progress1(indent,title,i/hidr,h,'text');
 end
 data=data(3:end,:);
+preNan=zeros(length(data(:,1)),1);
 for i=1:n
-    nanIndex{i}=find(isnan(data(:,i)));
+    preNan=preNan+isnan(data(:,i));
 end
+nanIndex=find(preNan);
 end

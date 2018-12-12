@@ -9,8 +9,8 @@ nArchivos=length(Path);
 Fechas=zeros(nArchivos,2);
 Info=cell(nArchivos,1);
 title='Extrayendo archivos:';
-indent=1;
-h=progress(indent,title,0);
+indent=2;
+h=progress1(indent,title,0);
 for i=1:nArchivos
     prctg1=(i)/nArchivos;
     %archivo=Archivos{i};
@@ -26,7 +26,7 @@ for i=1:nArchivos
     if nargout==3
         Fechas(i,:)=[fechaInicial,fechaFinal];
     end
-    h=progress(indent,title,h,prctg1);
+    h=progress1(indent,title,prctg1,h);
 end
 fechaInicial=min(Fechas(:,1));
 fechaFinal=max(Fechas(:,2));

@@ -1,9 +1,9 @@
-function [ varargout ] = transicionesUni( clasifica )
-%[ transiciones ] = transicionesUni( clasifica )
+function [ varargout ] = transicionesUni2( clasifica )
+%[ transiciones ] = transicionesUni2( clasifica )
 %   Crea una matriz dispersa mX2 con la estructura (patronAnt,patronSig) ocurrencias
 %   que almacena la cantidad de ocurrencias en las que de un patronAnt pasa
 %   a un patronSig en el vector clasifica
-%[i,j,v]=transicionesUni( clasifica )
+%[i,j,v]=transicionesUni2( clasifica )
 %   Devuelve los indices para formar la matriz de transiciones unicas
 %% Codigo
 dif=~(clasifica(1:end-1)==clasifica(2:end));
@@ -15,13 +15,27 @@ clear dif;
 cant=0;
 K=zeros(m-1,1);
 L=zeros(m-1,1);
-v=ones(m-1,1);
+v=zeros(m-1,1);
+title='Creando transiciones unicas ';
+indent=0;
+prctg=0;
+h=progress1(indent,title,prctg,'text');
 for i=2:length(clasifica)
     if ~(clasifica(i)==clasifica(i-1))
-       cant=cant+1;
-       K(cant)=clasifica(i-1);
-       L(cant)=clasifica(i);
+        repeti=K(1:cant+1)==clasifica(i-1)&L(1:cant+1)==clasifica(i);
+        if ~repeti
+            cant=cant+1;
+            K(cant)=clasifica(i-1);
+            L(cant)=clasifica(i);
+            v(cant)=v(cant)+1;
+        else
+            index=find(repeti,1);
+            v(index)=v(index)+1;
+        end
     end
+    
+    h=progress1(indent,title,i/length(clasifica),h,'text');
+    
 end
 K=K(1:cant);
 L=L(1:cant);
