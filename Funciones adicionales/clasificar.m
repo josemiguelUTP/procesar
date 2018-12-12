@@ -5,7 +5,7 @@ dist=pdist(patron,centroides);
 corr=corrcoef(patron,centroides);
 iCentroide=find((dist<=mDis&corr>=mCor),1);
 if isempty(iCentroide)
-    iCentroide=find(dist(dist==min(dist)),1);
+    iCentroide=find(dist==min(dist),1);
 end
 end
 

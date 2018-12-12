@@ -105,23 +105,28 @@ elseif caso==3&&strcmp(modo,'text')
     H.h=Ha.h;
     txt=[repmat(' ',1,4*indent),title,num2str(prctg*100),'%'];
     disp(txt);
-    txt=[repmat(' ',1,4*indent),'T estimado ',num2str(tEst),' segundos'];
+    mEst=floor(tEst/60);
+    sEst=tEst-mEst*60;
+    txt=[repmat(' ',1,4*indent),'T estimado ',num2str(mEst),' m ',num2str(sEst),' s'];
     disp(txt);
 end
 end
 function h=graphPrint(Position,title,prctg,h,tEst)
 if ishandle(h)
+    mEst=floor(tEst/60);
+    sEst=tEst-mEst*60;
     if prctg<1
-        waitbar(prctg,h,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(tEst),' segundos'],'Position',Position);
+        waitbar(prctg,h,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(mEst),' m ',num2str(sEst),' s'],'Position',Position);
     else
         waitbar(prctg,h,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(0),' segundos'],'Position',Position);
         close(h);
     end
 else
     if prctg<1
-        h=waitbar(prctg,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(tEst),' segundos'],'Position',Position);
+
+        h=waitbar(prctg,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(mEst),' m ',num2str(sEst),' s'],'Position',Position);
     else
-        h=waitbar(prctg,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(tEst),' segundos'],'Position',Position);
+        h=waitbar(prctg,[title,num2str(prctg*100),'% Tiempo estimado ',num2str(0),' segundos'],'Position',Position);
         close(h);
     end
 end

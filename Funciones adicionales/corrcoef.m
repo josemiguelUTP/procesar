@@ -1,6 +1,5 @@
 function corr=corrcoef(X,Y)
-%Entrega la correlacion entre X y cada fila de Y normalizando con la media
-%de X y Y
+%Entrega la correlacion entre X y cada fila de Y
 [m,n]=size(Y);
 X=X-mean(X);
 Y=Y-mean(Y,2)*ones(1,n);
