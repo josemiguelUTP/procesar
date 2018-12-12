@@ -120,7 +120,7 @@ RUTAS ={'/home/gvilla/Downloads/PhPo/C37118-11-LaEnea230-20180710001451-20180712
 %% Estableciendo nombres de las fases y de archivos
 nFase.fase0='fase0'; %Datos alineados en la misma ventana de tiempo
 nFase.fase1='fase1'; %Patrones creados y limpiados
-nFase.pFase1='frecuencias'; %Archivo .mat que contiene los patrones alineados y normalizados
+nFase.pFase1='angulos'; %Archivo .mat que contiene los patrones alineados y normalizados
 nFase.sFase1='Norm'; %Sufijo del archivo que contiene la normalizacion de los patrones (pFase1_sFase1)
 nFase.fase2='fase2'; %Clasificacion de patrones
 nFase.fase3='fase3'; %Creacion de transiciones unicas
@@ -213,38 +213,40 @@ end
 %% Se detecta la existencia de los datos de fase1
 exis=exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'.mat'],'file');
 exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_',nFase.sFase1,'.mat'],'file');
-
+exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_inRaros1.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_inRaros2.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_noNanIndex.mat'],'file');
 %Si no existen, se crean y guardan los patrones
 if ~exis
     %% Creacion, limpieza y normalizacion de patrones
     %   Creacion
-    [patrones,nanIndex]=crearP(PATHS,[1],[1]);
-%     TethaA=patrones(:,[1 4 7 10]);
-%     patrones(:,[1 4 7 10])=patrones(:,[1 4 7 10])-patrones(:,[2 5 8 11]); % Tetha A - Tetha B
-%     patrones(:,[2 5 8 11])=patrones(:,[2 5 8 11])-patrones(:,[3 6 9 12]); % Tetha B - Tetha C
-%     patrones(:,[3 6 9 12])=patrones(:,[3 6 9 12])-TethaA;
-%     clear TethaA
-    ComPatrones=patrones; %Se almacenan los patrones sin normalizar
+    [patrones,nanIndex,inRaros1,inRaros2]=crearPAng(PATHS);
     %patrones=clean(patrones,nanIndex); %Ya no se limpiaran los patrones
     %% Determinacion de indices donde no hay valores nan
     mIndex=size(patrones,1);
     noNanIndex=comple(nanIndex,mIndex);
-    %   Normalizacion para frecuencias
-    fMed=mean(mean(patrones(noNanIndex,1:hidr)));
-    fMax=max(max(patrones(noNanIndex,1:hidr)))-fMed;
-    patrones(noNanIndex,1:hidr)=(patrones(noNanIndex,1:hidr)-fMed)/fMax;
-    [patrones(noNanIndex,hidr+1:end),N]=normaliza(patrones(noNanIndex,hidr+1:end));
+    %   Normalizacion para los angulos
+    patrones=(patrones-0)/120;
+    N=zeros(1,size(patrones,2));
+    N=[N;(120*ones(1,size(patrones,2)))];
     %% Guardando variables procesadas
     %   Creando la carpeta fase1 (Patrones)
+    h=progress1(0,'Guardando Variables fase1 ',0,'text');
     [~,~,~]=mkdir(carpeta,'Datos Procesados');
     [~,~,~]=mkdir([carpeta,'Datos Procesados',sl],nFase.fase1);
     save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'.mat'],'patrones','-v7.3');
-    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_Completos.mat'],'ComPatrones','-v7.3');
+    h=progress1(0,'Guardando Variables fase1 ',1/6,h,'text');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_inRaros1.mat'],'inRaros1','-v7.3');
+    h=progress1(0,'Guardando Variables fase1 ',2/6,h,'text');
+    save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_inRaros2.mat'],'inRaros2','-v7.3');
+    h=progress1(0,'Guardando Variables fase1 ',3/6,h,'text');
     save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_nanIndex.mat'],'nanIndex','-v7.3');
+    h=progress1(0,'Guardando Variables fase1 ',4/6,h,'text');
     save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_noNanIndex.mat'],'noNanIndex','-v7.3');
+    h=progress1(0,'Guardando Variables fase1 ',5/6,h,'text');
     save([carpeta,'Datos Procesados',sl,nFase.fase1,sl,nFase.pFase1,'_',nFase.sFase1,'.mat'],'N','-v7.3');
-    %% Eliminando variables innecesarias
-    clear ComPatrones
+    h=progress1(0,'Guardando Variables fase1 ',6/6,h,'text');
+    
 end
 %% Cargando variables de la fase1 siempre y cuando no est�n en el workspace
 exis=exist('patrones','var');
@@ -261,7 +263,7 @@ exis=exis&&exist([carpeta,'Datos Procesados',sl,nFase.fase2,sl,nFase.pFase1,'_cl
 if ~exis
     %% Creacion de centroides unicos y clasificacion de los patrones en estos centroides
     clasifica=zeros(size(patrones,1),1);
-    [ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.2,0.7,50000);
+    [ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.01,0.7,50000);
     %[ centroides,clasifica(noNanIndex) ] = centrUnicosO(patrones(noNanIndex,:),0.8,0.2,50000);
     %% Guardando variables procesadas
     %   Creando la carpeta fase2 (Centroides y clasificacion)

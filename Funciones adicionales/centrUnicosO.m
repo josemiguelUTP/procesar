@@ -80,6 +80,13 @@ for i=2:N
     end
     
     h1=progress1(indent1,title1,i/N,h1,modo);
+    if i==2
+        t=tic;
+        fprintf('Centroides hasta ahora: %d \n\n',cant);
+        cantA=cant;
+    elseif toc(t)>1&&(~cantA==cant)
+        fprintf('Centroides hasta ahora: %d \n\n',cant);
+    end
 end
 centroides=centroides(1:cant,:);
 end
