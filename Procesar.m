@@ -1,4 +1,5 @@
 %Test Script con datos reales
+clear;
 %% Carga de RUTAS
 %carpeta='/home/gvilla/Downloads/PhPo/';
 %carpeta='D:\Jevo\Documentos\Matematica aplicada\XM\Bases de datos\';
@@ -132,15 +133,178 @@ clear carpeta archivos i
 % '/home/gvilla/Downloads/PhPo/C37118-60-Bacata-20180721110336-20180723172339.csv';...
 % '/home/gvilla/Downloads/PhPo/C37118-60-Bacata-20180723172339-20180725234428.csv'
 % };
+%% Estableciendo nombres de las fases y de archivos
+nFase.fase0='fase0'; %Datos alineados en la misma ventana de tiempo
+nFase.fase1='fase1'; %Patrones creados y limpiados
+nFase.pFase1='frecuencias'; %Archivo .mat que contiene los patrones alineados y normalizados
+nFase.sFase1='Norm'; %Sufijo del archivo que contiene la normalizacion de los patrones (pFase1_sFase1)
+nFase.fase2='fase2'; %Clasificacion de patrones
+nFase.fase3='fase3'; %Creacion de transiciones unicas
+%% Deteccion de carpeta asumiendo que todos los archivos .csv estan en una misma carpeta
+slash=strfind(RUTAS{1},'/');
+if isempty(slash)
+    slash=strfind(RUTAS{1},'\');
+end
+carpeta=RUTAS{1}(1:slash(end));
+clear slash;
+%% Fase 0 alineacion de hidroelectricas
 %% Separacion de hidroelectricas
 indice=[1,5,8,12];
-%% Alineacion de hidroelectricas
-%Tiempo promedio para obtener la interseccion de los archivos de la ENEA2,    
-%GUAVIO2 y CERROMATOSO es de 5 minutos con 55 segundos
-tic
-[interseccion]=alinea(18,RUTAS,indice);% t=5 min 55 seg
-toc
-title='Alineando archivos';
-indent=0;
-prctg=0;
-h=progress1(indent,title,0);
+hidr=length(indice)-1; %Cantidad de hidroelectricas
+nombres=cell(hidr,1);
+for i=1:hidr
+    nombres{i}=['data',num2str(i)];
+end
+%% Se detecta la existencia de los datos de fase0
+exis=true;
+for i=1:hidr
+    file=sprintf('data%d.mat',i);
+    exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase0,'\',file],'file');
+end
+%% Si no existen se alinean las hidroelectricas
+if ~exis
+    %% Alineacion de hidroelectricas
+    %Tiempo promedio para obtener la interseccion de los archivos de la ENEA2,
+    %GUAVIO2 y CERROMATOSO es de 5 minutos con 55 segundos
+    %Deteccion de la existencia de interseccion
+    exis=exist([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat'],'file');
+    %Si no existe se crea
+    if ~exis
+        tic
+        [interseccion]=alinea(18,RUTAS,indice);% t=5 min 55 seg
+        toc
+        %Guardando interseccion
+        [~,~,~]=mkdir(carpeta,'Datos Procesados');
+        [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase0);
+        save([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat'],'interseccion','-v7.3');
+    end
+    %Se carga interseccion siempre y cuando no esté en el workspace
+    exis=exist('interseccion','var');
+    if ~exis
+        load([carpeta,'Datos Procesados\',nFase.fase0,'\','interseccion.mat']);
+    end
+    title='Alineando archivos';
+    indent=0;
+    prctg=0;
+    % Creando la carpeta Datos Procesados y fase0 (Alineados)
+    [~,~,~]=mkdir(carpeta,'Datos Procesados');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase0);
+    h=progress1(indent,title,0);
+    for i=1:hidr
+        name=nombres{i};
+        tic;[~,data]=alinea(18,RUTAS,indice(i:i+1),interseccion);toc;
+        %Quitando las fechas
+        data=data{1};
+        %% Guardando variables procesadas
+        filename=[carpeta,'Datos Procesados\',nFase.fase0,'\',sprintf('data%d.mat',i)];
+        save(filename,'data','-v7.3');
+        h=progress1(indent,title,i/(length(indice)-1),h);
+    end
+end
+%% Eliminacion de variables innecesarias
+clear indice exis file i data
+%% Creacion rutas de archivos de fase0
+PATHS=cell(hidr,1);
+for i=1:hidr
+    PATHS{i}=[carpeta,'Datos Procesados\',nFase.fase0,'\',sprintf('data%d.mat',i)];
+end
+%% Fase 1 creacion limpieza y normalizacion de patrones
+%% Se detecta la existencia de los datos de fase1
+exis=exist([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_',nFase.sFase1,'.mat'],'file');
+
+%Si no existen, se crean y guardan los patrones
+if ~exis
+    %% Creacion, limpieza y normalizacion de patrones
+    %   Creacion
+    [patrones,nanIndex]=crearP(PATHS,1,1);
+    %   Limpieza
+    ComPatrones=patrones; %Se almacenan los patrones sin limpiar
+    patrones=clean(patrones,nanIndex);
+    %   Normalizacion
+    [patrones,N]=normaliza(patrones);
+    %% Guardando variables procesadas
+    %   Creando la carpeta fase1 (Patrones)
+    [~,~,~]=mkdir(carpeta,'Datos Procesados');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase1);
+    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat'],'patrones','-v7.3');
+    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_Completos.mat'],'ComPatrones','-v7.3');
+    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_nanIndex.mat'],'nanIndex','-v7.3');
+    save([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_',nFase.sFase1,'.mat'],'N','-v7.3');
+    %% Eliminando variables innecesarias
+    clear ComPatrones
+end
+%% Cargando variables de la fase1 siempre y cuando no estén en el workspace
+exis=exist('patrones','var');
+if ~exis
+    patrones=struct2array(load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'.mat']));
+end
+%% Fase 2 clasificacion de los patrones
+%% Se detecta la existencia de los datos de fase2
+exis=exist([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides.mat'],'file');
+exis=exis&&exist([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat'],'file');
+%Si no existen se clasifican los patrones
+if ~exis
+    %% Creacion de centroides unicos y clasificacion de los patrones en estos centroides
+    [ centroides,clasifica ] = centrUnicosO(patrones,0.5,0.7,50000);
+    %% Guardando variables procesadas
+    %   Creando la carpeta fase2 (Centroides y clasificacion)
+    [~,~,~]=mkdir(carpeta,'Datos Procesados');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase2);
+    save([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides','.mat'],'centroides','-v7.3');
+    save([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat'],'clasifica','-v7.3');
+end
+%% Cargando variables de la fase2 siempre y cuando ya no estén en el workspace
+exis=exist('centroides','var');
+exis=exis&&exist('clasifica','var');
+if ~exis
+    centroides=struct2array(load([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_centroides.mat']));
+    clasifica=struct2array(load([carpeta,'Datos Procesados\',nFase.fase2,'\',nFase.pFase1,'_clasifica.mat']));
+end
+%% Se detecta la existencia de los datos de fase3
+exis=exist([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat'],'file');
+%Si no existe entonces se crean las transiciones
+if ~exis
+    %% Fase 3 Creacion de transiciones unicas
+    [ transiciones ] = transicionesUni( clasifica );
+    %% Guardando variables procesadas
+    %   Creando la carpeta fase3 (Transiciones unicas)
+    [~,~,~]=mkdir(carpeta,'Datos Procesados');
+    [~,~,~]=mkdir([carpeta,'Datos Procesados\'],nFase.fase3);
+    save([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat'],'transiciones','-v7.3');
+end
+%% Se cargan las variables de la fase3 siempre y cuando no existan en el workspace
+exis=exist('transiciones','var');
+if ~exis
+    load([carpeta,'Datos Procesados\',nFase.fase3,'\',nFase.pFase1,'_transiciones','.mat']);
+end
+%% Prediccion
+clear clasifica exis hidr i nombres PATHS patrones RUTAS;
+%Se deben cargar los datos para hacer la prueba
+load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_Completos.mat']);
+load([carpeta,'Datos Procesados\',nFase.fase1,'\',nFase.pFase1,'_nanIndex.mat']);
+[ ~,noNan,nanIndex1 ] = clean( ComPatrones,nanIndex );
+ind=~(noNan==max(noNan));
+noNan=noNan(ind);
+nanIndex1=nanIndex1(ind);
+mChunckIndex=find(noNan==max(noNan),1);
+if mChunckIndex==1
+    TestPatrones=ComPatrones(1:nanIndex1(mChunckIndex)-1,:);  
+else 
+    TestPatrones=ComPatrones(nanIndex1(mChunckIndex-1)+1:nanIndex1(mChunckIndex)-1,:);
+end
+[m,n]=size(TestPatrones);
+for i=1:m
+    actual=TestPatrones(i,:);
+    if i>1
+        %Clasificando
+        centroide=clasificar(actual,centroides,0.5,0.7);
+        %Encontrando probabilidades
+        [ro,co]=find(transiciones);
+        co=co(ro==centroide);
+        ro=ro(ro==centroide);
+    end
+    plot(TestPatrones(1:i,1));
+    pause(0.1);
+    anterior=actual;
+end

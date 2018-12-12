@@ -41,9 +41,9 @@ end
 if caso==0||caso==2
     %Tarda 300 segundos en correr en los equipos de Sirius
     %tFechas=cell(cantHidro,1);
-    indent=0;
+    indent=1;
     title='Encontrando intersecciones: ';
-    h1=progress(indent,title,0);
+    h1=progress1(indent,title,0);
     for i=1:cantHidro
         %Tiempo para cerromatoso la enea y el guavio2 es de aproximadamente 300
         %segundos
@@ -52,7 +52,7 @@ if caso==0||caso==2
         title='Encontrando intersecciones: ';
         prctg=(i)/cantHidro;
         indent=0;
-        h1=progress(indent,title,h1,prctg);
+        h1=progress1(indent,title,prctg,h1);
     end
     
     %% Interseccion entre las fechas de estas hidroelectricas
@@ -65,15 +65,15 @@ end
 if caso==1||caso==2
     data=cell(cantHidro,2);
     title='Alineando hidroelectricas: ';
-    indent=0;
-    h2=progress(indent,title,0);
+    indent=1;
+    h2=progress1(indent,title,0);
     for i=1:cantHidro
         cantArchi=length(paths{i});
         d=[];
         t=[];
         title1='Recortando archivos: ';
-        indent1=1;
-        h3=progress(indent1,title1,0);
+        indent1=2;
+        h3=progress1(indent1,title1,0);
         for j=1:cantArchi
             Info=extrae(paths{i}(j),center);
             Info=Info{1};
@@ -82,12 +82,12 @@ if caso==1||caso==2
             d=[d;dt];
             t=[t;tt];
             prctg1=j/cantArchi;
-            h3=progress(indent1,title1,h3,prctg1);
+            h3=progress1(indent1,title1,prctg1,h3);
         end
         data{i,1}=d;
         data{i,2}=t;
         prctg=i/cantHidro;
-        h2=progress(indent,title,h2,prctg);
+        h2=progress1(indent,title,prctg,h2);
     end
     varargout{1}=data;
 end
